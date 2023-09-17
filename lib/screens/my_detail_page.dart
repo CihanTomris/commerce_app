@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:video_player_app/screens/my_content_page.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -12,6 +12,22 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+
+  List imgs = [];
+
+  _readData() async {
+    await DefaultAssetBundle.of(context).loadString("json/img.json").then((e) {
+      setState(() {
+        imgs = json.decode(e);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    _readData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -19,15 +35,15 @@ class _DetailPageState extends State<DetailPage> {
     int _currentIndex = 0;
     return Scaffold(
       body: Container(
-        color: Color(0xFFc5e5f3),
+        color: const Color(0xFFc5e5f3),
         child: Stack(
           children: [
             Positioned(
                 top: 50,
                 left: 10,
                 child: IconButton(
-                  onPressed: () => Get.back(),
-                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () => Get.to(()=> const ContentPage()),
+                  icon: const Icon(Icons.arrow_back_ios),
                 )),
             Positioned(
               top: 120,
@@ -40,7 +56,7 @@ class _DetailPageState extends State<DetailPage> {
                 margin: const EdgeInsets.only(left: 25, right: 25),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFFebf8fd),
+                  color: const Color(0xFFebf8fd),
                 ),
                 child: Container(
                   padding: const EdgeInsets.only(left: 20, right: 20),
@@ -48,9 +64,9 @@ class _DetailPageState extends State<DetailPage> {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: AssetImage("image/background.jpg"),
+                        backgroundImage: AssetImage(Get.arguments["img"]),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Column(
@@ -58,16 +74,16 @@ class _DetailPageState extends State<DetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "name",
-                            style: TextStyle(
+                            Get.arguments["name"],
+                            style: const TextStyle(
                                 color: Color(0xFF3b3f42),
                                 fontSize: 18,
                                 decoration: TextDecoration.none),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
-                          Text(
+                          const Text(
                             "Top Level",
                             style: TextStyle(
                                 color: Color(0xFFfdebb2),
@@ -82,8 +98,8 @@ class _DetailPageState extends State<DetailPage> {
                         height: 120,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Color(0xFFf3fafc)),
-                        child: Center(
+                            color: const Color(0xFFf3fafc)),
+                        child: const Center(
                           child: Icon(
                             Icons.notifications,
                             color: Color(0xFF69c5df),
@@ -104,7 +120,7 @@ class _DetailPageState extends State<DetailPage> {
               child: Container(
                 width: 80,
                 height: 80,
-                color: Color(0xFFf9fbfc),
+                color: const Color(0xFFf9fbfc),
               ),
             ),
             Positioned(
@@ -118,12 +134,12 @@ class _DetailPageState extends State<DetailPage> {
                 height: 250,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Color(0xFFfcfffe),
+                    color: const Color(0xFFfcfffe),
                     boxShadow: [
                       BoxShadow(
                           blurRadius: 20,
                           spreadRadius: 1,
-                          offset: Offset(0, 10),
+                          offset: const Offset(0, 10),
                           color: Colors.grey.withOpacity(0.2))
                     ]),
                 child: Container(
@@ -135,30 +151,37 @@ class _DetailPageState extends State<DetailPage> {
                           child: Row(
                         children: [
                           Text(
-                            "Title",
-                            style: TextStyle(
+
+
+
+
+
+
+
+                            Get.arguments["title"],
+                            style: const TextStyle(
                                 fontSize: 30, fontWeight: FontWeight.w500),
                           ),
                           Expanded(child: Container())
                         ],
                       )),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Container(
                         width: width,
                         child: Text(
-                          "Text",
+                          Get.arguments["text"],
                           style:
-                              TextStyle(fontSize: 20, color: Color(0xFFb8b8b8)),
+                              const TextStyle(fontSize: 16, color: Color(0xFFb8b8b8)),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+                      const SizedBox(
+                        height: 5,
                       ),
-                      Divider(
+                      const Divider(
                         thickness: 1.0,
                       ),
-                      SizedBox(
-                        height: 10,
+                      const SizedBox(
+                        height: 5,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,8 +189,8 @@ class _DetailPageState extends State<DetailPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.watch_later, color: Color(0xFF69c5df)),
-                              SizedBox(
+                              const Icon(Icons.watch_later, color: Color(0xFF69c5df)),
+                              const SizedBox(
                                 width: 5,
                               ),
                               Column(
@@ -175,13 +198,13 @@ class _DetailPageState extends State<DetailPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "name",
-                                    style: TextStyle(
+                                    Get.arguments["name"],
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         color: Color(0xFF303030),
                                         fontWeight: FontWeight.w700),
                                   ),
-                                  Text(
+                                  const Text(
                                     "Deadline",
                                     style: TextStyle(
                                         fontSize: 18, color: Color(0xFFacacac)),
@@ -193,9 +216,9 @@ class _DetailPageState extends State<DetailPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.monetization_on,
+                              const Icon(Icons.monetization_on,
                                   color: Color(0xFFfb8483)),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Column(
@@ -203,13 +226,13 @@ class _DetailPageState extends State<DetailPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "499",
-                                    style: TextStyle(
+                                    Get.arguments["prize"],
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         color: Color(0xFF303030),
                                         fontWeight: FontWeight.w700),
                                   ),
-                                  Text(
+                                  const Text(
                                     "Prize",
                                     style: TextStyle(
                                         fontSize: 18, color: Color(0xFFacacac)),
@@ -218,7 +241,7 @@ class _DetailPageState extends State<DetailPage> {
                               )
                             ],
                           ),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Icon(Icons.star, color: Color(0xFFfbc33e)),
@@ -258,7 +281,7 @@ class _DetailPageState extends State<DetailPage> {
                 height: 50,
                 child: Container(
                   child: RichText(
-                      text: TextSpan(
+                      text: const TextSpan(
                           text: "Total Participants ",
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -272,7 +295,7 @@ class _DetailPageState extends State<DetailPage> {
                 )),
             //`image`s
             Stack(children: [
-              for (int i = 0; i < 5; i++)
+              for (int i = 0; i < imgs.length; i++)
                 Positioned(
                   top: 590,
                   left: (20 + i * 35).toDouble(),
@@ -282,7 +305,7 @@ class _DetailPageState extends State<DetailPage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         image: DecorationImage(
-                            image: AssetImage("image/background.jpg"),
+                            image: AssetImage(imgs[i]["img"]),
                             fit: BoxFit.cover)),
                   ),
                 )
@@ -298,13 +321,13 @@ class _DetailPageState extends State<DetailPage> {
                         height: 60,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Color(0xFFfbc33e)),
+                            color: const Color(0xFFfbc33e)),
                         child:
-                            Icon(Icons.favorite_border, color: Colors.white)),
-                    SizedBox(
+                            const Icon(Icons.favorite_border, color: Colors.white)),
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text(
+                    const Text(
                       "Add to favorite",
                       style: TextStyle(color: Color(0xFFfbc33e), fontSize: 18),
                     )

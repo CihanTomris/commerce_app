@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'my_detail_page.dart';
+import 'package:video_player_app/screens/recent_contest.dart';
 
 class ContentPage extends StatefulWidget {
   const ContentPage({Key? key}) : super(key: key);
@@ -161,7 +161,14 @@ class _ContentPageState extends State<ContentPage> {
                     itemBuilder: (_, i){
                       return GestureDetector(
                         onTap: (){
-                          Get.toNamed("/detail");
+                          Get.toNamed("/detail", arguments: {
+                            "title" : info[i]["title"].toString(),
+                            "text" : info[i]["text"].toString(),
+                            "name" : info[i]["name"].toString(),
+                            "img" : info[i]["img"].toString(),
+                            "time" : info[i]["time"].toString(),
+                            "prize" : info[i]["prize"].toString(),
+                          });
                         },
 
 
@@ -196,7 +203,7 @@ class _ContentPageState extends State<ContentPage> {
                                 width: width,
                                 child: Text(
                                   info[i]["text"],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16,
                                       color:Color(0xFFb8eefc)
                                   ),
@@ -250,7 +257,7 @@ class _ContentPageState extends State<ContentPage> {
                     const Text(
                       "Show all",
                       style: TextStyle(
-                          color:Color(0xFFcfd5b3),
+                          color:Colors.black12,
                           fontSize: 15,
                           decoration: TextDecoration.none
                       ),
@@ -265,6 +272,11 @@ class _ContentPageState extends State<ContentPage> {
                           color: const Color(0xFFfdc33c)
                       ),
                       child: GestureDetector(
+                        onTap: (){
+                          Get.to(() => const RecentContest());
+                        },
+
+                        child: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,),
 
                       ),
                     )
@@ -278,7 +290,7 @@ class _ContentPageState extends State<ContentPage> {
                       child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: 4,
+                          itemCount: list.length,
                           itemBuilder: (_, i){
                             return Container(
                               width: width,
@@ -292,32 +304,32 @@ class _ContentPageState extends State<ContentPage> {
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Row(
                                   children: [
-                                    const CircleAvatar(
+                                     CircleAvatar(
                                       radius:40,
                                       backgroundImage: AssetImage(
-                                          "image/background.jpg"
+                                         list[i]["img"],
                                       ),
                                     ),
                                     const SizedBox(width: 10,),
-                                    const Column(
+                                    Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Status",
-                                          style: TextStyle(
-                                              color:Color(0xFFfdebb2),
+                                          list[i]["status"],
+                                          style: const TextStyle(
+                                              color:Colors.teal,
                                               fontSize: 12,
                                               decoration: TextDecoration.none
                                           ),
                                         ),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
                                         SizedBox(
                                           width: 170,
                                           child: Text(
-                                            "Text",
+                                            list[i]["text"],
 
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color:Color(0xFF3b3f42),
                                                 fontSize: 18,
                                                 decoration: TextDecoration.none
@@ -332,9 +344,9 @@ class _ContentPageState extends State<ContentPage> {
                                       width: 70,
                                       height: 70,
 
-                                      child: const Text(
-                                        "Time",
-                                        style: TextStyle(
+                                      child: Text(
+                                        list[i]["time"],
+                                        style: const TextStyle(
                                             fontSize: 10,
                                             decoration: TextDecoration.none,
                                             color:Color(0xFFb2b8bb)
